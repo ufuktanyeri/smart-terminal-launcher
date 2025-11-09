@@ -1,0 +1,190 @@
+{
+  "name": "smart-terminal-launcher",
+  "displayName": "Smart Terminal Launcher",
+  "description": "Akıllı terminal seçici ve komut çalıştırıcı - Komutları analiz eder ve en uygun terminalde çalıştırır",
+  "version": "1.0.0",
+  "publisher": "ufuktanyeri",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "terminal",
+    "launcher",
+    "smart",
+    "auto-detect",
+    "powershell",
+    "cmd",
+    "git-bash",
+    "wsl"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "smartTerminal.openPanel",
+        "title": "Smart Terminal: Panel Aç",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "smartTerminal.autoDetect",
+        "title": "Smart Terminal: Terminalleri Tespit Et",
+        "icon": "$(search)"
+      },
+      {
+        "command": "smartTerminal.runCommand",
+        "title": "Smart Terminal: Komut Çalıştır (Manuel)",
+        "icon": "$(play)"
+      },
+      {
+        "command": "smartTerminal.autoRunCommand",
+        "title": "Smart Terminal: Komut Çalıştır (Otomatik)",
+        "icon": "$(zap)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "smartTerminal.openPanel",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t"
+      },
+      {
+        "command": "smartTerminal.autoDetect",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d"
+      }
+    ],
+    "configuration": {
+      "title": "Smart Terminal Launcher",
+      "properties": {
+        "smartTerminal.defaultTerminal": {
+          "type": "string",
+          "default": "PowerShell",
+          "enum": [
+            "PowerShell",
+            "CMD",
+            "Git Bash",
+            "WSL",
+            "Custom"
+          ],
+          "description": "Varsayılan terminal seçimi"
+        },
+        "smartTerminal.autoDetectOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "VS Code başlangıcında otomatik terminal tespiti yap"
+        },
+        "smartTerminal.enableStatistics": {
+          "type": "boolean",
+          "default": false,
+          "description": "Anonim kullanım istatistikleri topla (gizlilik odaklı, opt-in)"
+        },
+        "smartTerminal.showRecommendations": {
+          "type": "boolean",
+          "default": true,
+          "description": "OS'a göre terminal önerileri göster"
+        },
+        "smartTerminal.terminalPriority": {
+          "type": "object",
+          "default": {
+            "npm": "PowerShell",
+            "node": "PowerShell",
+            "yarn": "PowerShell",
+            "pnpm": "PowerShell",
+            "git": "Git Bash",
+            "python": "CMD",
+            "pip": "CMD",
+            "docker": "PowerShell",
+            "kubectl": "PowerShell",
+            "bash": "Git Bash",
+            "sh": "Git Bash",
+            "wsl": "WSL",
+            "linux": "WSL"
+          },
+          "description": "Komut tiplerine göre terminal öncelikleri"
+        },
+        "smartTerminal.customTerminals": {
+          "type": "array",
+          "default": [],
+          "description": "Özel terminal tanımlamaları",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Terminal adı"
+              },
+              "path": {
+                "type": "string",
+                "description": "Terminal yolu"
+              },
+              "args": {
+                "type": "array",
+                "description": "Başlangıç argümanları"
+              }
+            }
+          }
+        },
+        "smartTerminal.autoRunConfirmation": {
+          "type": "boolean",
+          "default": true,
+          "description": "AutoRun öncesi onay iste"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "smart-terminal",
+          "title": "Smart Terminal",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "smart-terminal": [
+        {
+          "type": "webview",
+          "id": "smartTerminal.panel",
+          "name": "Terminal Launcher"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.19.0",
+    "eslint": "^8.45.0",
+    "typescript": "^5.1.0"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ufuktanyeri/smart-terminal-launcher"
+  },
+  "bugs": {
+    "url": "https://github.com/ufuktanyeri/smart-terminal-launcher/issues"
+  },
+  "license": "MIT"
+}
